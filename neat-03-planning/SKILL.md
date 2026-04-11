@@ -67,6 +67,8 @@ Parse response:
 Extract top 3-5 constraints/risks from L6 (if needed):
   Invoke: neat-knowledge-query extract analysis --sections L6 --summary-only
 
+**After loading context, proceed to Step 2 (Clarify).**
+
 **Fallback (no neat-knowledge):**
 
 Check: .index/summaries.json exists in docs/knowledge/?
@@ -76,6 +78,8 @@ Check: .index/summaries.json exists in docs/knowledge/?
 - Continue with same logic
 
 **If KB minimal/empty:** Check KB state per knowledge query pattern. If Minimal or Empty: Continue with user-provided goal only. Step 2 factual questions become decision questions. Decomposition relies on goal understanding, not deep KB.
+
+**After loading context (or determining KB is minimal), proceed to Step 2 (Clarify).**
 
 ### Step 2: Clarify (Required Before Step 3)
 
@@ -100,9 +104,13 @@ Fallback:
   Search for WebSocket, realtime patterns
   Synthesize answer from findings
 
+**After answering factual questions from KB, proceed to 2.3.**
+
 **2.3 Ask user decision questions:** Present only questions KB cannot answer (priorities, permissions, strategic choices, preferences).
 
 **Example:** "Should notifications be opt-in or opt-out by default?" → Ask user (strategic preference).
+
+**After clarifying with user, proceed to Step 3 (Decompose and Cross-Check).**
 
 ### Step 3: Decompose and Cross-Check
 
@@ -127,6 +135,8 @@ With progressive disclosure:
 Fallback:
   Read analysis L3, L4 sections directly
   Extract components and flows
+
+**After cross-checking against architecture, proceed to Step 4 (Present and Iterate).**
 
 ### Step 4: Present and Iterate
 
