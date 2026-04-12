@@ -19,20 +19,23 @@ Markdown-based skills for spec-driven development. Optimised for [Claude Code](h
 │  analysis → domains → planning → refinement ─────┼────┼─→ feature docs → any agents  │
 │     │           │         │           │          │    │         │                    │
 │     ▼           ▼         ▼           ▼          │    │         ▼                    │
-│ Understand   Deepen   Prioritize   Scope         │    │    brainstorm  [gate]        │
-│ the product  domain   what to do   into          │    │    plan        [gate]        │
-│              knowledge             features      │    │    execute     [gate]        │
+│ Understand   Deepen   Prioritize   Scope         │    │    plan        [gate]        │
+│ the product  domain   what to do   into          │    │    execute     [gate]        │
+│              knowledge             features      │    │                              │
+│                                                  │    │         ▼                    │
+│                                                  │    │    audit (after 2+ features) │
 │                                                  │    │                              │
 └──────────────────────────────────────────────────┘    └──────────────────────────────┘
+
                      Neat SDD - context
               ┌──────────────────────────────────────────────┐
               │                                              │
-              │  knowledge    adr      audit      changes    │
-              │      │         │         │           │       │
-              │      ▼         ▼         ▼           ▼       │
-              │  Q&A for   Record   Verify      Change       │
-              │  any       arch.    KB          notes        │
-              │  audience  decisions            git          │
+              │      knowledge         adr         changes   │
+              │          │              │             │      │
+              │          ▼              ▼             ▼      │
+              │      Q&A for        Record        Change     │
+              │        any           arch.         notes     │
+              │      audience      decisions        git      │
               │                                              │
               └──────────────────────────────────────────────┘
 ```
@@ -76,12 +79,15 @@ This is where spec gates kick in. The feature doc produced by refinement becomes
 - **Readiness check** → evaluates doc quality (acceptance criteria, blast area, risks, goal coverage), discovers blast area files
 - **Brainstorming** → queries KB for patterns and domain knowledge, reads code in blast area, produces design spec
 - **Writing Plans** → breaks design into TDD implementation tasks with exact file paths, splits if >15 tasks
-- **Risk Assessment + Spec Gate** → analyzes design complexity (task count, keywords, dependencies, blast area size) and runs gate if medium/high risk
+- **Risk Assessment + Plan Gate** → analyzes design complexity (task count, keywords, dependencies, blast area size) and runs gate if medium/high risk to verify design spec + task plan together
 - **Execute** → produces working code via grouped parallel, subagent-driven, or inline execution
-- **Risk Assessment + Spec Gate** → analyzes implementation (diff size, modified files, critical paths) and runs gate if medium/high risk
+- **Risk Assessment + Execute Gate** → analyzes implementation (diff size, modified files, critical paths) and runs gate if medium/high risk to verify code against acceptance criteria
 - **Status update** → updates feature doc to `state: implemented`
+- **Audit prompt** → after 2+ features with relationships, prompts to run cross-feature verification
 
 Gates use independent AI review (Haiku-powered) for fast, cost-effective verification against acceptance criteria. Risk assessment prevents unnecessary gates for simple features while ensuring thorough verification of complex or critical changes.
+
+**Audit** (`neat-sdd-audit`) — Final cross-feature verification after multiple features are implemented. Checks dependency integration, blast area coordination, implementation gaps, and pattern consistency across features. Should be run after gates complete for individual features.
 
 ### Context Phase
 
@@ -102,8 +108,8 @@ Independent utility skills that can be called standalone or as part of other wor
 | `neat-knowledge-query` | Search or research knowledge base with progressive loading and synthesis | Standalone for Q&A or called by other skills for KB access |
 | `neat-knowledge-ingest` | Convert web/PDF/Office/ZIP/images to structured markdown with indexing | Standalone for adding content to KB |
 | `neat-sdd-adr` | Create or extract architectural decisions as formal ADRs in MADR format | Standalone conversational mode or extraction mode (can be called by other skills) |
-| `neat-sdd-audit` | Cross-cutting consistency check across planning, features, domain knowledge, and coverage | Run after pipeline changes to verify KB consistency |
 | `neat-sdd-gate` | Independent AI review against feature doc acceptance criteria | Called by `neat-sdd-build` to verify design/plan/code |
+| `neat-sdd-audit` | Final cross-feature verification after multiple features implemented | Run after 2+ features with relationships to verify integration, coordination, consistency |
 | `neat-sdd-changes` | Generate audience-appropriate change notes from git commit history | Standalone for release notes, changelogs |
 
 ## Install / Uninstall
