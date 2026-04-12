@@ -6,29 +6,21 @@ Risk-based gate triggering determines whether to run spec gates based on feature
 
 Run before Step 5 (design + plan verification).
 
-**High-risk signals:**
+**Risk signals:**
 
-- Task count > 15
 - Keywords in goal/criteria: `auth`, `payment`, `security`, `migration`, `database`, `breaking`, `API`
-- Blast area > 5 files
-- Dependencies on other features (has `depends_on`)
-
-**Medium-risk signals:**
-
-- Task count 10-15
 - ADRs extracted > 0 (architectural significance)
-- Blast area 3-5 files
+- Other features depend on this feature (incoming dependencies - breaking this breaks downstream features)
 
 **Decision:**
 
-- ANY high-risk signal → Run gate
-- ANY medium-risk signal (and no high) → Run gate
-- All signals low → Skip gate, log decision
+- ANY risk signal → Run gate
+- No risk signals → Skip gate, log decision
 
 **Log format (skip):**
 
 ```text
-Skipped design gate (low-risk feature: [X] tasks, [Y] files, no keywords)
+Skipped design gate (low-risk feature: [X] files, no keywords, no dependencies)
 ```
 
 **Log destination:** Console output during build execution. Not written to gate log file since gate doesn't run.
@@ -37,24 +29,18 @@ Skipped design gate (low-risk feature: [X] tasks, [Y] files, no keywords)
 
 Run before Step 7 (code verification).
 
-**High-risk signals:**
+**Risk signals:**
 
-- Git diff files > 10
-- Git diff lines (insertions + deletions) > 500
+- Git diff files ≥ 5
+- Git diff lines (insertions + deletions) ≥ 200
 - Keywords in diff: `auth`, `payment`, `security`, `migration`, `schema`, `breaking`, `deprecated`
 - Modified files in critical paths: `auth/`, `payment/`, `security/`, `migrations/`, `api/`
-
-**Medium-risk signals:**
-
-- Git diff files 5-10
-- Git diff lines 200-500
 - New database models or API endpoints
 
 **Decision:**
 
-- ANY high-risk signal → Run gate
-- ANY medium-risk signal (and no high) → Run gate
-- All signals low → Skip gate, log decision
+- ANY risk signal → Run gate
+- No risk signals → Skip gate, log decision
 
 **Log format (skip):**
 
