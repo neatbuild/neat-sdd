@@ -88,7 +88,7 @@ Present: "Does this look good?" (yes/edit/no). Edit: ask → update → loop. No
 
 ### Phase 4: Save
 
-Get path (create dir if needed), write file (fail → report, exit). Update index.md (sort by date number descending), specs.md (add entry/count). Auto-ingest (if neat-knowledge available, per [auto KB pattern](../references/neat-knowledge.md)): check skills installed → initialize KB if needed → invoke `neat-knowledge-ingest file <adr-path> --category adrs` → log. Report success.
+Get path (create dir if needed), write file (fail → report, exit). Update index.md (sort by date number descending), specs.md (add entry/count). Auto-ingest (if neat-knowledge available, per [auto KB pattern](../references/neat-knowledge.md)): check skills installed AND KB initialized → if ready: invoke `neat-knowledge-ingest file <adr-path> --category adrs` → log success. Report success.
 
 **Errors:** Can't create dir → exit | Write fails → no updates | Index corrupted → backup + fresh
 
@@ -135,7 +135,7 @@ Steps:
 
 ### Step 4: Collect & Save
 
-Receive metadata (3 lines/ADR). Update index.md (sort by date number descending) and specs.md. Auto-ingest (if neat-knowledge available, per [auto KB pattern](../references/neat-knowledge.md)): check skills installed → initialize KB if needed → invoke `neat-knowledge-ingest directory docs/specs/<product>/adrs/ --category adrs` → log "SUCCESS: Indexed {N} ADRs in project KB". Context benefit: ~30 tokens/ADR vs 800-1,200.
+Receive metadata (3 lines/ADR). Update index.md (sort by date number descending) and specs.md. Auto-ingest (if neat-knowledge available, per [auto KB pattern](../references/neat-knowledge.md)): check skills installed AND KB initialized → if ready: invoke `neat-knowledge-ingest directory docs/specs/<product>/adrs/ --category adrs` → log "SUCCESS: Indexed {N} ADRs in project KB". Context benefit: ~30 tokens/ADR vs 800-1,200.
 
 ### Error Handling
 

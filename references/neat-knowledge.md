@@ -18,27 +18,27 @@ echo "installed" || echo "not-installed"
 - `installed` → Enable automatic KB management
 - `not-installed` → Continue without KB management (neat-sdd works independently)
 
-## Automatic KB Initialization
+## KB Detection
 
-**When:** First time a neat-sdd skill needs to ingest content
+**Auto-ingest requires an initialized KB.** Users must initialize the KB once by ingesting any content via `/neat-knowledge-ingest`.
 
 **Check sequence:**
 
-1. Does `docs/knowledge/.index/summaries.json` exist?
-   - YES → KB exists, proceed to ingestion
-   - NO → Initialize KB first
+1. Are neat-knowledge skills installed? (`test -L ~/.claude/skills/neat-knowledge-ingest`)
+   - NO → Skip auto-ingest (neat-sdd works independently)
+   
+2. Does `docs/knowledge/.index/metadata.json` exist?
+   - YES → KB initialized, proceed to ingestion
+   - NO → Skip auto-ingest, log recommendation
 
-**KB Initialization:**
+**One-time KB initialization (user action):**
 
-```markdown
-Invoke Skill tool:
-  skill: neat-knowledge-ingest
-  args: --init-project-kb
+User runs `/neat-knowledge-ingest <any-file>` once. This prompts for KB location and creates:
+  - docs/knowledge/.index/metadata.json (KB metadata)
+  - docs/knowledge/.index/index.json (search index)
+  - docs/knowledge/.index/summaries/ (per-category summaries)
 
-This creates:
-  - docs/knowledge/.index/summaries.json (empty KB index)
-  - docs/knowledge/.index/metadata.json (kb_type: "project")
-```
+After initialization, all auto-ingest operations work seamlessly.
 
 ## Automatic Ingestion Points
 
@@ -50,15 +50,23 @@ This creates:
 
 ```markdown
 Check: neat-knowledge skills installed?
-If YES:
-  1. Check/initialize KB (see above)
-  2. Invoke Skill tool:
-       skill: neat-knowledge-ingest
-       args: file docs/specs/<product>/analysis-<product>.md --category analysis
-  3. Log: "✓ Indexed analysis in project KB"
+  Run: test -L ~/.claude/skills/neat-knowledge-ingest && echo "installed" || echo "not-installed"
   
-If NO:
-  Skip (user can manually install neat-knowledge later)
+If "not-installed":
+  Skip auto-ingest
+  
+If "installed":
+  Check: docs/knowledge/.index/metadata.json exists?
+  
+  If NO:
+    Skip auto-ingest
+    Log: "To enable auto-indexing, initialize KB with: /neat-knowledge-ingest <any-file>"
+    
+  If YES:
+    Invoke Skill tool:
+      skill: neat-knowledge-ingest
+      args: file docs/specs/<product>/analysis-<product>.md --category analysis
+    Log: "✓ Indexed analysis in project KB"
 ```
 
 ### After Domain Investigation (neat-sdd-domains)
@@ -68,16 +76,17 @@ If NO:
 **Action:**
 
 ```markdown
-Check: neat-knowledge skills installed?
+Check: neat-knowledge skills installed AND KB initialized?
+  Run: test -L ~/.claude/skills/neat-knowledge-ingest && test -f docs/knowledge/.index/metadata.json
+  
 If YES:
-  1. Check/initialize KB (see above)
-  2. Invoke Skill tool:
-       skill: neat-knowledge-ingest
-       args: file docs/specs/<product>/domains/domain-knowledge-{NN}-{name}.md --category domains
-  3. Log: "✓ Indexed domain knowledge in project KB"
+  Invoke Skill tool:
+    skill: neat-knowledge-ingest
+    args: file docs/specs/<product>/domains/domain-knowledge-{NN}-{name}.md --category domains
+  Log: "✓ Indexed domain knowledge in project KB"
   
 If NO:
-  Skip
+  Skip auto-ingest
 ```
 
 ### After ADR Creation (neat-sdd-adr)
@@ -87,17 +96,40 @@ If NO:
 **Action:**
 
 ```markdown
-Check: neat-knowledge skills installed?
+Check: neat-knowledge skills installed AND KB initialized?
+  Run: test -L ~/.claude/skills/neat-knowledge-ingest && test -f docs/knowledge/.index/metadata.json
+  
 If YES:
-  1. Check/initialize KB (see above)
-  2. Invoke Skill tool:
-       skill: neat-knowledge-ingest
-       args: directory docs/specs/<product>/adrs/ --category adrs
-  3. Log: "✓ Indexed {N} ADRs in project KB"
+  Invoke Skill tool:
+    skill: neat-knowledge-ingest
+    args: directory docs/specs/<product>/adrs/ --category adrs
+  Log: "✓ Indexed {N} ADRs in project KB"
   
 If NO:
-  Skip
+  Skip auto-ingest
 ```
+
+### After Feature Implementation (neat-sdd-build)
+
+**When:** After updating feature doc to `state: implemented` with `## Status` section
+
+**Action:**
+
+```markdown
+Check: neat-knowledge skills installed AND KB initialized?
+  Run: test -L ~/.claude/skills/neat-knowledge-ingest && test -f docs/knowledge/.index/metadata.json
+  
+If YES:
+  Invoke Skill tool:
+    skill: neat-knowledge-ingest
+    args: file docs/specs/<product>/features/feature-{goal}-{nn}-{slug}.md --category features
+  Log: "✓ Indexed implemented feature in project KB"
+  
+If NO:
+  Skip auto-ingest
+```
+
+**Why after implementation, not refinement:** The KB should contain actual capabilities (working code), not planned features (specs). Only implemented features are ingested.
 
 ## Benefits
 
@@ -125,23 +157,18 @@ If NO:
 2. Register in specs.md Outputs
 3. Auto-ingest (if neat-knowledge available):
 
-Check: neat-knowledge skills installed?
+Check: neat-knowledge skills installed AND KB initialized?
   Run: test -L ~/.claude/skills/neat-knowledge-ingest && \
-       test -L ~/.claude/skills/neat-knowledge-query && \
-       echo "installed" || echo "not-installed"
+       test -f docs/knowledge/.index/metadata.json && \
+       echo "ready" || echo "skip"
        
-If "installed":
-  Check: docs/knowledge/.index/summaries.json exists?
-  If NO:
-    Invoke: neat-knowledge-ingest --init-project-kb
-    Log: "Initialized project KB at docs/knowledge/"
-    
+If "ready":
   Invoke: neat-knowledge-ingest <args>
   Log: "✓ Indexed in project KB"
   
-If "not-installed":
+If "skip":
   Skip auto-ingest
-  Continue normally
+  (User can initialize KB with: /neat-knowledge-ingest <any-file>)
 ```
 
 ## Error Handling

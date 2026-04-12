@@ -32,7 +32,7 @@ Orchestrates builds: readiness → brainstorming → ADR extraction → writing-
 | 5 | Spec gate: design + plan |
 | 6-6a | Execute layer-by-layer |
 | 7 | Spec gate: code |
-| 8 | Update feature doc status |
+| 8 | Update feature doc status, auto-ingest to KB |
 | 9 | Prompt for audit if 2+ features with relationships |
 | 10 | Continue building |
 
@@ -127,7 +127,14 @@ Invoke `neat-sdd-gate` (execute mode) with feature doc + codebase.
 
 ### Step 8: Update Feature Doc
 
-Update frontmatter `state: implemented`. Append `## Status` section: built date, branch, gate log reference. Announce completion.
+1. **Update feature file:** Update frontmatter `state: implemented`. Append `## Status` section: built date, branch, gate log reference.
+2. **Auto-ingest** (if neat-knowledge available, per [auto KB pattern](../references/neat-knowledge.md)):
+   - Check: `test -L ~/.claude/skills/neat-knowledge-ingest && test -f docs/knowledge/.index/metadata.json && echo "ready" || echo "skip"`
+   - If "ready":
+     - Invoke: `neat-knowledge-ingest file docs/specs/<product>/features/feature-{goal}-{nn}-{slug}.md --category features`
+     - Log: "✓ Indexed implemented feature in project KB"
+   - If "skip": Skip auto-ingest
+3. **Announce completion**
 
 **Both updates required:** Frontmatter tracks state, Status section provides build metadata.
 

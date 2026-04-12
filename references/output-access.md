@@ -16,7 +16,7 @@
 **neat-sdd always works** by reading files directly. Progressive disclosure is an **optional performance optimization**.
 
 ```markdown
-Check: .index/summaries.json exists in docs/knowledge/?
+Check: .index/metadata.json exists in docs/knowledge/?
   
 YES → Progressive disclosure available (OPTIONAL ENHANCEMENT):
   - Use neat-knowledge-query extract mode
@@ -225,7 +225,7 @@ Step X: Load KB Context
 
 **With neat-knowledge (optional optimization):**
 
-Check: .index/summaries.json exists in docs/knowledge/?
+Check: .index/metadata.json exists in docs/knowledge/?
 YES → Use neat-knowledge-query extract mode (80-90% context savings)
 NO → Use standard operation above
 
@@ -249,7 +249,7 @@ Both paths produce same results, progressive disclosure is faster
 
 **Optional optimization (if neat-knowledge installed):**
 
-Check: .index/summaries.json exists in docs/knowledge/?
+Check: .index/metadata.json exists in docs/knowledge/?
 If YES:
   - Invoke neat-knowledge-query extract <source> --sections <sections>
   - Parse JSON response (structured, predictable)

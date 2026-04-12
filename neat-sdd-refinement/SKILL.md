@@ -32,8 +32,7 @@ Scans for `state: planned`, derives acceptance criteria, blast area, risks, depe
 | 4 | Auto-detect dependencies → approve |
 | 5 | Present draft → edit |
 | 6 | Save `state: refined` |
-| 7 | Auto-ingest (if neat-knowledge available) |
-| 8 | Loop or finish |
+| 7 | Loop or finish |
 
 ## Setup
 
@@ -109,14 +108,7 @@ Detected:
 After user approves the refined feature:
 
 1. **Save:** Update feature file with `state: refined`, add `refined: YYYY-MM-DD`, add `depends_on: [...]` if detected
-2. **Auto-ingest** (if neat-knowledge available, per [auto KB pattern](../references/neat-knowledge.md)):
-   - Check: `test -L ~/.claude/skills/neat-knowledge-ingest && test -L ~/.claude/skills/neat-knowledge-query`
-   - If installed:
-     - Check/initialize KB: `docs/knowledge/.index/summaries.json` exists? If NO → invoke `neat-knowledge-ingest --init-project-kb`
-     - Invoke: `neat-knowledge-ingest file docs/specs/<product>/features/feature-{goal}-{nn}-{slug}.md --category features`
-     - Log: "Indexed feature in project KB"
-   - If not installed: Skip
-3. **Loop:** STOP - "Refine another feature? (Y/n)"
+2. **Loop:** STOP - "Refine another feature? (Y/n)"
 
 ## Feature Format
 
