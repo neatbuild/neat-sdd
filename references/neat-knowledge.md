@@ -26,7 +26,7 @@ echo "installed" || echo "not-installed"
 
 1. Are neat-knowledge skills installed? (`test -L ~/.claude/skills/neat-knowledge-ingest`)
    - NO → Skip auto-ingest (neat-sdd works independently)
-   
+
 2. Does `docs/knowledge/.index/metadata.json` exist?
    - YES → KB initialized, proceed to ingestion
    - NO → Skip auto-ingest, log recommendation
@@ -34,9 +34,10 @@ echo "installed" || echo "not-installed"
 **One-time KB initialization (user action):**
 
 User runs `/neat-knowledge-ingest <any-file>` once. This prompts for KB location and creates:
-  - docs/knowledge/.index/metadata.json (KB metadata)
-  - docs/knowledge/.index/index.json (search index)
-  - docs/knowledge/.index/summaries/ (per-category summaries)
+
+- docs/knowledge/.index/metadata.json (KB metadata)
+- docs/knowledge/.index/index.json (search index)
+- docs/knowledge/.index/summaries/ (per-category summaries)
 
 After initialization, all auto-ingest operations work seamlessly.
 

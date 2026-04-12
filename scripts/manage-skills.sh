@@ -20,7 +20,7 @@ for src in "$root"/${SKILL_PREFIX}*; do
   [ -d "$src" ] || continue
   [ -f "$src/SKILL.md" ] || continue
 
-  name=$(grep '^name:' "$src/SKILL.md" | head -1 | sed 's/^name: *//')
+  name=$(sed -n '/^name:/s/^name: *//p' "$src/SKILL.md" | head -1)
   if [ -z "$name" ]; then
     echo "ERROR: no name in $src/SKILL.md frontmatter" >&2
     continue
@@ -30,10 +30,14 @@ for src in "$root"/${SKILL_PREFIX}*; do
 
   if [ "$mode" = "install" ]; then
     # Skip if already correctly installed
-    if [ -L "$dst/$name" ] && [ "$(realpath "$dst/$name")" = "$src_real" ]; then
-      echo "INFO: $name already installed — skipping"
-      continue
-    elif [ -e "$dst/$name" ]; then
+    if [ -L "$dst/$name" ]; then
+      dst_real="$(realpath "$dst/$name")"
+      if [ "$dst_real" = "$src_real" ]; then
+        echo "INFO: $name already installed — skipping"
+        continue
+      fi
+    fi
+    if [ -e "$dst/$name" ]; then
       echo "WARN: $dst/$name already exists — skipping"
       continue
     fi
@@ -42,8 +46,13 @@ for src in "$root"/${SKILL_PREFIX}*; do
 
   else  # uninstall
     # Only remove if installed by this project
-    if [ -L "$dst/$name" ] && [ "$(realpath "$dst/$name")" = "$src_real" ]; then
-      rm "$dst/$name" && echo "INFO: $name uninstalled"
+    if [ -L "$dst/$name" ]; then
+      dst_real="$(realpath "$dst/$name")"
+      if [ "$dst_real" = "$src_real" ]; then
+        rm "$dst/$name" && echo "INFO: $name uninstalled"
+      else
+        echo "WARN: $name exists but was not installed by this project — skipping"
+      fi
     elif [ -e "$dst/$name" ]; then
       echo "WARN: $name exists but was not installed by this project — skipping"
     else

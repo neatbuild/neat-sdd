@@ -65,7 +65,7 @@ A human-in-the-loop funnel — each step produces progressively deeper understan
 
 3. **Planning** (`neat-sdd-planning`) — Takes high-level goals or objectives and breaks them down into discrete, prioritized features for refinement. Clarifies ambiguous goals, synthesizes capabilities from product analysis, cross-checks against architecture, and produces feature files ready for refinement.
 
-4. **Refinement** (`neat-sdd-refinement`) — Scans features directory for `state: planned` items and adds detailed acceptance criteria, risks, dependencies, and blast area analysis. Derives technical details from KB and analysis, auto-detects dependencies from component overlap. Produces requirements docs focused on **what** to build, not **how**. Updates features to `state: refined`.
+4. **Refinement** (`neat-sdd-refinement`) — Scans features directory for `state: planned` items and adds detailed acceptance criteria, risks, dependencies, and blast area analysis. Derives technical details from KB and analysis, auto-detects dependencies from component overlap. Produces requirements docs focused on **what** to build, not **how**. Updates features to `state: refined`. (Features are ingested into KB after implementation, not refinement.)
 
 ### Build Phase (feature docs → working code)
 
@@ -87,7 +87,7 @@ Gates use three-layer verification: structural check, automated verification, an
 
 Independent skills usable at any point — no fixed order, no build dependency. All require analysis output (specs.md).
 
-**Knowledge** (`neat-knowledge-query`, `neat-knowledge-ingest`) — Query and build your knowledge base. **Search mode** for fast keyword lookups across metadata. **Ask mode** for interactive research with progressive source loading and synthesis. **Ingest** converts web pages, PDFs, Office documents, ZIP archives, images, and text into structured markdown with automatic analysis and indexing. When installed, neat-sdd automatically manages the project KB (initializes `docs/knowledge/`, auto-ingests analysis/domains/ADRs). Separate sibling project at [neat-knowledge](https://github.com/neatskills/neat-knowledge).
+**Knowledge** (`neat-knowledge-query`, `neat-knowledge-ingest`) — Query and build your knowledge base. **Search mode** for fast keyword lookups across metadata. **Ask mode** for interactive research with progressive source loading and synthesis. **Ingest** converts web pages, PDFs, Office documents, ZIP archives, images, and text into structured markdown with automatic analysis and indexing. When installed, neat-sdd automatically manages the project KB (auto-ingests analysis, domains, ADRs, implemented features, and change notes). User must initialize KB once via `/neat-knowledge-ingest <any-file>`. Separate sibling project at [neat-knowledge](https://github.com/neatskills/neat-knowledge).
 
 **Changes** (`neat-sdd-changes`) — Generates curated, audience-appropriate change notes from git history. Categorizes commits using conventional commit prefixes or AI, summarizes in the right tone, outputs markdown and terminal-ready text.
 
@@ -117,7 +117,7 @@ Neat SDD is installed as a complete skill set:
 
 The scripts automatically install all skills found in `neat-*` folders.
 
-**Note:** Knowledge base skills (`neat-knowledge-query`, `neat-knowledge-ingest`, `neat-knowledge-rebuild`) are installed separately from the [neat-knowledge](https://github.com/neatskills/neat-knowledge) project. When installed, neat-sdd automatically manages the project KB — auto-initializes `docs/knowledge/` and auto-ingests analysis, domains, and ADRs as they're created.
+**Note:** Knowledge base skills (`neat-knowledge-query`, `neat-knowledge-ingest`, `neat-knowledge-rebuild`) are installed separately from the [neat-knowledge](https://github.com/neatskills/neat-knowledge) project. When installed, neat-sdd automatically manages the project KB — auto-ingests analysis, domains, ADRs, implemented features, and change notes. User must initialize KB once via `/neat-knowledge-ingest <any-file>`.
 
 ## Output
 
