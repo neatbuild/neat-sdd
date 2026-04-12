@@ -121,6 +121,7 @@ Examples:
 **Performance optimization:** Uses Haiku model for fast, cost-effective review.
 
 IMPORTANT: Do NOT use Sonnet/Opus for this task. Haiku is sufficient because:
+
 1. Criteria are explicit (clear yes/no)
 2. Artifacts are concrete (code/specs)
 3. Task is mechanical (matching criteria to evidence)
