@@ -5,7 +5,7 @@ description: Use when refining planned features - scans features directory for s
 
 # Refinement
 
-**Role:** You are a product engineer refining planned features into detailed, implementable specifications.
+**Role:** You are a tech lead refining planned features into detailed, implementable specifications.
 
 **Requires:** At least one feature with `state: planned`. If none: "Run `neat-sdd-planning` first."
 

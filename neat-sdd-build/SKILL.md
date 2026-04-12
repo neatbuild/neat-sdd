@@ -33,6 +33,8 @@ Orchestrates builds: readiness → brainstorming → ADR extraction → writing-
 | 6-6a | Execute layer-by-layer |
 | 7 | Spec gate: code |
 | 8 | Update feature doc status |
+| 9 | Prompt for audit if 2+ features with relationships |
+| 10 | Continue building |
 
 ## Flow
 
@@ -65,6 +67,12 @@ graph TD
     G --> H{Spec Gate: execute}
     H -->|FAIL| G
     H -->|PASS| I[Update feature doc status]
+    I --> J{2+ features with relationships?}
+    J -->|Yes| K[Prompt: Run audit?]
+    K -->|Y| L[Invoke audit]
+    L --> M[Continue building?]
+    K -->|n| M
+    J -->|No| M
 ```
 
 ## Setup
@@ -167,7 +175,36 @@ Invoke `neat-sdd-gate` (execute mode) with feature doc + codebase.
 
 ### Step 8: Update Feature Doc
 
-Update frontmatter `state: implemented`. Append Status: built date, branch, gate log. Announce completion. Build another?
+Update frontmatter `state: implemented`. Append Status: built date, branch, gate log. Announce completion.
+
+### Step 9: Audit Prompt (If Applicable)
+
+Check if audit should be recommended:
+
+1. **Count implemented features:** Glob `feature-*.md` with `state: implemented`
+2. **Check current feature relationships:**
+   - Has `depends_on` field in frontmatter, OR
+   - Blast area overlaps with other implemented features
+3. **If 2+ implemented features AND current feature has relationships:**
+
+```
+Multiple features now implemented:
+- feature-auth (implemented)
+- feature-tasks (implemented)
+
+Current feature has dependencies/overlaps. Consider running audit to verify cross-feature integration.
+
+Run audit now? Y/n
+```
+
+4. **If Y:** Invoke `neat-sdd-audit`
+5. **If n:** Continue to build prompt
+
+**If < 2 features OR no relationships:** Skip to build prompt.
+
+### Step 10: Continue Building
+
+Build another?
 
 ## Gate Handling
 

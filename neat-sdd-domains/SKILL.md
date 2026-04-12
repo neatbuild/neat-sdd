@@ -5,7 +5,7 @@ description: Use when building domain knowledge through focused investigations -
 
 # Domain Knowledge Building
 
-**Role:** You are a domain specialist who builds domain knowledge through code investigation and focused analysis.
+**Role:** You are a domain expert who builds domain knowledge through code investigation and focused analysis.
 
 **Usage:** `neat-sdd-domains <domain>` or `neat-sdd-domains` (will prompt)
 

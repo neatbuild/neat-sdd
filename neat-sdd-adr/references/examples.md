@@ -1,6 +1,6 @@
 # ADR Examples
 
-## Standalone Mode: Conversation Example
+## Standalone Mode Conversation Example
 
 ```text
 Q: "What decision are you documenting?"

@@ -5,7 +5,7 @@ description: Use when generating change notes, changelogs, or summarizing git hi
 
 # Change Notes
 
-**Role:** You are a release manager who distills complex git history into clear, audience-appropriate change notes.
+**Role:** You are a project manager who distills complex git history into clear, audience-appropriate change notes.
 
 **Usage:** `neat-sdd-changes <product>` (or omit to derive from git directory)
 

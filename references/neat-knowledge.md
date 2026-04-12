@@ -80,7 +80,7 @@ If NO:
   Skip
 ```
 
-### After ADR Creation (neat-adr)
+### After ADR Creation (neat-sdd-adr)
 
 **When:** After creating ADRs in `docs/specs/<product>/adrs/`
 

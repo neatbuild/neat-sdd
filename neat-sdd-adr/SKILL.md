@@ -5,12 +5,12 @@ description: Use when creating or extracting architectural decisions - standalon
 
 # ADR Management
 
-**Role:** You are a technical writer who creates and extracts Architecture Decision Records (ADRs) in MADR format.
+**Role:** You are a software architect who documents architectural decisions in MADR format.
 
 **Usage:**
 
-- Standalone: `neat-adr`
-- Extraction: `neat-adr <design-spec-path> <feature-doc-path> <mode>`
+- Standalone: `neat-sdd-adr`
+- Extraction: `neat-sdd-adr <design-spec-path> <feature-doc-path> <mode>`
 
 ## Overview
 
@@ -74,11 +74,11 @@ Ask topic. Query KB per [standard pattern](../references/output-access.md): arch
 
 ### Phase 1: Conversation
 
-Ask: "What decision?" "What problem?" Check: decision, context, alternatives, rationale, consequences. If missing: "Alternatives?" (suggest), "Why?", "Trade-offs?", "Risks?" Use context to suggest alternatives, identify conflicts, recommend alignment. Stop when all 5 present or "none". [Example](references/examples.md#standalone-mode-conversation-example).
+Ask: "What decision?" "What problem?" Check: decision, context, alternatives, rationale, consequences. If missing: "Alternatives?" (suggest), "Why?", "Trade-offs?", "Risks?" Use context to suggest alternatives, identify conflicts, recommend alignment. Stop when all 5 present or "none". See [examples](references/examples.md).
 
 ### Phase 2: Generation
 
-Assign date number (shared utility, `YYYYMMDD` format), filename `adr-{YYYYMMDD}-{slug}.md`. Status: "Accepted"/"Proposed". Enrich with KB. Format per [template](references/template.md#standalone-mode-template). [Example](references/examples.md#generated-madr-example).
+Assign date number (shared utility, `YYYYMMDD` format), filename `adr-{YYYYMMDD}-{slug}.md`. Status: "Accepted"/"Proposed". Enrich with KB. Format per [template](references/template.md). See [examples](references/examples.md).
 
 ### Phase 3: Review
 
@@ -92,7 +92,7 @@ Get path (create dir if needed), write file (fail → report, exit). Update inde
 
 ## Extraction Mode
 
-Extract from design spec "Key Decisions". Input: `neat-adr <design-spec-path> <feature-doc-path> <mode>`. Expects `## Key Decisions` with H3 subsections (`### N. Title`).
+Extract from design spec "Key Decisions". Input: `neat-sdd-adr <design-spec-path> <feature-doc-path> <mode>`. Expects `## Key Decisions` with H3 subsections (`### N. Title`).
 
 **Note:** Extraction is always triggered but may result in zero ADRs if no architecturally significant decisions are found. This is valid behavior—not all features require ADRs.
 
@@ -124,7 +124,7 @@ Inputs: {title}, {content}, {date-number}, {design-spec-path}, {feature-doc-path
 Steps:
 1. Check: 2+ missing (rationale/alternatives/consequences) OR (1 missing AND <100 words) → ask user
 2. Filename: adr-{date-number}-{slug}.md (YYYYMMDD format)
-3. Generate MADR per [template](references/template.md#extraction-mode-template) (Context from feature+spec, Decision from Key Decisions)
+3. Generate MADR per [template](references/template.md) (Context from feature+spec, Decision from Key Decisions)
 4. Write {output-path}/adr-{date-number}-{slug}.md
 5. Return: date-number, title, filename (3 lines only)
 ```

@@ -39,6 +39,22 @@ Markdown-based skills for spec-driven development. Optimised for [Claude Code](h
 
 The pipeline ensures you **understand before you plan, plan before you scope, and scope before you build**.
 
+## Skills & Roles
+
+Each skill operates with a specific role persona that guides its behavior and outputs:
+
+| Skill | Role |
+|-------|------|
+| **neat-sdd-analysis** | Software architect who extracts actionable insights from codebases |
+| **neat-sdd-planning** | Product owner who clarifies ambiguous goals and decomposes them into discrete features |
+| **neat-sdd-refinement** | Tech lead refining planned features into detailed, implementable specifications |
+| **neat-sdd-domains** | Domain expert who builds domain knowledge through code investigation and focused analysis |
+| **neat-sdd-build** | Tech lead who orchestrates feature builds from spec through verified code |
+| **neat-sdd-gate** | QA engineer who verifies implementation alignment against feature specifications |
+| **neat-sdd-audit** | QA engineer who verifies cross-feature integration, coordination, and consistency |
+| **neat-sdd-adr** | Software architect who documents architectural decisions in MADR format |
+| **neat-sdd-changes** | Project manager who distills complex git history into clear, audience-appropriate change notes |
+
 ### Shape Phase (requirements → feature docs)
 
 A human-in-the-loop funnel — each step produces progressively deeper understanding, and you review and steer at every step. No automated gates here; the protection comes from the sequential flow itself, where weak output from one step is naturally surfaced by the next.
@@ -95,8 +111,8 @@ Independent utility skills that can be called standalone or as part of other wor
 Neat SDD is installed as a complete skill set:
 
 ```bash
-./scripts/install.sh      # Install all skills
-./scripts/uninstall.sh    # Uninstall all skills
+./scripts/manage-skills.sh              # Install all skills
+./scripts/manage-skills.sh uninstall    # Uninstall all skills
 ```
 
 The scripts automatically install all skills found in `neat-*` folders.
@@ -116,10 +132,8 @@ neat-sdd/
   CLAUDE.md                          # Project rules and conventions
   README.md                          # This file
   scripts/
-    install.sh                       # Symlinks skills to ~/.claude/skills/
-    uninstall.sh
-  neat_<NN>_<skill>/                 # Pipeline skills (ordered)
-  neat_<skill>/                      # Standalone skills (unordered)
+    manage-skills.sh                 # Manage skill installation (install/uninstall)
+  neat-sdd-<skill>/                  # Skills (pipeline and standalone)
 
 Each skill folder contains:
   SKILL.md, README.md, scripts/     (scripts optional)
