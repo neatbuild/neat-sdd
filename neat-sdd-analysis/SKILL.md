@@ -181,4 +181,4 @@ TodoWrite: ask structure/refs → (platform: check → prompt → list/select) �
      - Log: "✓ Indexed analysis in project KB"
    - If "skip": Skip auto-ingest (user can initialize KB with `/neat-knowledge-ingest <any-file>`)
 3. **Offer PDF:** "Want PDF? (needs `neat-utils`)" → invoke `neat-util-pdf`
-4. **Suggest:** `neat-knowledge-query` or `neat-sdd-domains`
+4. **Suggest:** `neat-knowledge-extract` or `neat-sdd-domains`

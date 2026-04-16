@@ -45,10 +45,10 @@ Glob `docs/specs/<product>/features/feature-*.md`, filter `state: planned`. If n
 Agent-driven discovery:
 
 ```markdown
-Invoke: neat-knowledge-query extract "What are the architectural components and identified risks?"
+Invoke: neat-knowledge-extract "What are the architectural components and identified risks?"
 Parse: Components, risks from returned documents
 
-Invoke: neat-knowledge-query extract "What domain knowledge is available?"
+Invoke: neat-knowledge-extract "What domain knowledge is available?"
 Parse: Available domain coverage for precision assessment
 ```
 

@@ -99,8 +99,8 @@ Check: `docs/knowledge/.index/metadata.json` exists?
 
 **If YES (agent-driven discovery available):**
 - Formulate specific questions based on blast area components (e.g., "What authentication patterns, token handling, and security decisions exist?" for auth features)
-- Invoke: `neat-knowledge-query extract "<natural language query>"`
-- Agent evaluates 20-30 keyword matches for relevance and depth
+- Invoke: `neat-knowledge-extract "<natural language query>"`
+- Internally calls search, agent evaluates keyword matches for relevance and depth
 - Returns: Structured JSON (80-90% context savings)
 
 **If NO (direct reads fallback):**

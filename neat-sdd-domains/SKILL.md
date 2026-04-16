@@ -15,7 +15,7 @@ Select domain → build foundation → investigate topics → merge into one fil
 
 **Output:** `domain-knowledge-{NN}-{name}.md` with Overview, Investigations, Change Log.
 
-**Not for:** Q&A (`neat-knowledge-query`) or analysis (`neat-sdd-analysis`)
+**Not for:** Q&A (`neat-knowledge-extract`) or analysis (`neat-sdd-analysis`)
 
 ## When to Use
 

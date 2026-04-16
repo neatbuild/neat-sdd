@@ -49,7 +49,7 @@ Query KB per [knowledge query pattern](../references/output-access.md):
 Agent-driven discovery:
 
 ```markdown
-Invoke: neat-knowledge-query extract "What is the tech stack, integrations, architectural components, main workflows, and business logic?"
+Invoke: neat-knowledge-extract "What is the tech stack, integrations, architectural components, main workflows, and business logic?"
 ```
 
 Agent evaluates keyword matches and decides loading depth (summary/sections/full based on ROI).

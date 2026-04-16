@@ -95,7 +95,7 @@ Gates use independent AI review (Haiku-powered) for fast, cost-effective verific
 
 Independent skills usable at any point — no fixed order, no build dependency. All require analysis output (specs.md).
 
-**Knowledge** (`neat-knowledge-query`, `neat-knowledge-ingest`) — Query and build your knowledge base. **Search mode** for fast keyword lookups across metadata. **Ask mode** for interactive research with progressive source loading and synthesis. **Ingest** converts web pages, PDFs, Office documents, ZIP archives, images, and text into structured markdown with automatic analysis and indexing. When installed, neat-sdd automatically manages the project KB (auto-ingests analysis, domains, ADRs, implemented features, and change notes). User must initialize KB once via `/neat-knowledge-ingest <any-file>`. Separate sibling project at [neat-knowledge](https://github.com/neatskills/neat-knowledge).
+**Knowledge** (`neat-knowledge-extract`, `neat-knowledge-ingest`) — Query and build your knowledge base. **Search mode** for fast keyword lookups across metadata. **Ask mode** for interactive research with progressive source loading and synthesis. **Ingest** converts web pages, PDFs, Office documents, ZIP archives, images, and text into structured markdown with automatic analysis and indexing. When installed, neat-sdd automatically manages the project KB (auto-ingests analysis, domains, ADRs, implemented features, and change notes). User must initialize KB once via `/neat-knowledge-ingest <any-file>`. Separate sibling project at [neat-knowledge](https://github.com/neatskills/neat-knowledge).
 
 **Changes** (`neat-sdd-changes`) — Generates curated, audience-appropriate change notes from git history. Categorizes commits using conventional commit prefixes or AI, summarizes in the right tone, outputs markdown and terminal-ready text.
 
@@ -107,7 +107,7 @@ Independent utility skills that can be called standalone or as part of other wor
 
 | Skill | Purpose | Usage |
 | ----- | ------- | ----- |
-| `neat-knowledge-query` | Search or research knowledge base with progressive loading and synthesis | Standalone for Q&A or called by other skills for KB access |
+| `neat-knowledge-extract` | Search or research knowledge base with progressive loading and synthesis | Standalone for Q&A or called by other skills for KB access |
 | `neat-knowledge-ingest` | Convert web/PDF/Office/ZIP/images to structured markdown with indexing | Standalone for adding content to KB |
 | `neat-sdd-adr` | Create or extract architectural decisions as formal ADRs in MADR format | Standalone conversational mode or extraction mode (can be called by other skills) |
 | `neat-sdd-gate` | Independent AI review against feature doc acceptance criteria | Called by `neat-sdd-build` to verify design/plan/code |
@@ -125,7 +125,7 @@ Neat SDD is installed as a complete skill set:
 
 The scripts automatically install all skills found in `neat-*` folders.
 
-**Note:** Knowledge base skills (`neat-knowledge-query`, `neat-knowledge-ingest`, `neat-knowledge-rebuild`) are installed separately from the [neat-knowledge](https://github.com/neatskills/neat-knowledge) project. When installed, neat-sdd automatically manages the project KB — auto-ingests analysis, domains, ADRs, implemented features, and change notes. User must initialize KB once via `/neat-knowledge-ingest <any-file>`.
+**Note:** Knowledge base skills (`neat-knowledge-extract`, `neat-knowledge-ingest`, `neat-knowledge-rebuild`) are installed separately from the [neat-knowledge](https://github.com/neatskills/neat-knowledge) project. When installed, neat-sdd automatically manages the project KB — auto-ingests analysis, domains, ADRs, implemented features, and change notes. User must initialize KB once via `/neat-knowledge-ingest <any-file>`.
 
 ## Output
 

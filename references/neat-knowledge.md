@@ -9,7 +9,7 @@ Check if neat-knowledge skills are installed:
 ```bash
 # Check both required skills
 test -L ~/.claude/skills/neat-knowledge-ingest && \
-test -L ~/.claude/skills/neat-knowledge-query && \
+test -L ~/.claude/skills/neat-knowledge-extract && \
 echo "installed" || echo "not-installed"
 ```
 
@@ -136,7 +136,7 @@ If NO:
 
 **With automatic KB management:**
 
-- Analysis immediately searchable via `neat-knowledge-query`
+- Analysis immediately searchable via `neat-knowledge-extract`
 - Domain knowledge available for planning/refinement context
 - ADRs indexed for conflict detection
 - 80-90% context savings in downstream skills (planning, refinement, build)

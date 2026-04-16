@@ -43,7 +43,7 @@ NO → Direct reads (ALWAYS WORKS):
 **Command format (if neat-knowledge installed):**
 
 ```bash
-/neat-knowledge-query extract "<natural language query>"
+/neat-knowledge-extract "<natural language query>"
 ```
 
 **How it works:**
@@ -67,7 +67,7 @@ NO → Direct reads (ALWAYS WORKS):
 **Example 1 - Planning:**
 
 ```markdown
-Invoke: neat-knowledge-query extract "What is the tech stack, architectural components, integrations, and main workflows?"
+Invoke: neat-knowledge-extract "What is the tech stack, architectural components, integrations, and main workflows?"
 
 Agent: Analysis relevant → load summary (2.5K tokens)
 Returns: { "documents": [...], "loading_strategy": "summary", "tokens_loaded": 2500 }
@@ -77,10 +77,10 @@ Savings: 2.5K vs 8K+ full file (70% reduction)
 **Example 2 - Refinement (multiple queries):**
 
 ```markdown
-Invoke: neat-knowledge-query extract "What are the architectural components and identified risks?"
+Invoke: neat-knowledge-extract "What are the architectural components and identified risks?"
 Returns: Components + risks (1.8K tokens)
 
-Invoke: neat-knowledge-query extract "What domain knowledge is available?"
+Invoke: neat-knowledge-extract "What domain knowledge is available?"
 Returns: Domain summaries (600 tokens)
 
 Total: 2.4K vs 10K+ direct reads (76% savings)
@@ -107,7 +107,7 @@ Total: 2.4K vs 10K+ direct reads (76% savings)
 **Command format:**
 
 ```bash
-/neat-knowledge-query ask <question>
+/neat-knowledge-ask <question>
 ```
 
 **Returns:** Natural language answer with source citations
@@ -115,7 +115,7 @@ Total: 2.4K vs 10K+ direct reads (76% savings)
 **Example:**
 
 ```markdown
-User: /neat-knowledge-query ask "What auth patterns do we use?"
+User: /neat-knowledge-ask "What auth patterns do we use?"
 
 Response:
 Based on the domain knowledge and analysis:
@@ -164,7 +164,7 @@ Skills should check KB state in specs.md Outputs section to determine behavior (
 Check: .index/metadata.json exists in docs/knowledge/?
 
 If YES (agent-driven discovery):
-  - Invoke: neat-knowledge-query extract "<natural language query>"
+  - Invoke: neat-knowledge-extract "<natural language query>"
   - Agent evaluates 20-30 keyword matches for relevance and depth
   - Returns: Structured JSON (80-90% context savings)
 
