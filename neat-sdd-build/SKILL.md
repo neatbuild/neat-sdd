@@ -98,10 +98,11 @@ Parse components → keywords → search → rank → confirm.
 Check: `docs/knowledge/.index/metadata.json` exists?
 
 **If YES (agent-driven discovery available):**
-- Formulate specific questions based on blast area components (e.g., "What authentication patterns, token handling, and security decisions exist?" for auth features)
-- Invoke: `neat-knowledge-extract "<natural language query>"`
+- Formulate specific questions based on blast area components
+- Example: `neat-knowledge-extract "What authentication patterns, token handling, and security decisions exist?"`
 - Internally calls search, agent evaluates keyword matches for relevance and depth
 - Returns: Structured JSON (80-90% context savings)
+- If invoke fails (neat-knowledge not installed): fall back to direct reads automatically, log "neat-knowledge not available, using direct reads"
 
 **If NO (direct reads fallback):**
 - Read `specs.md`, parse KB entries in Outputs section
