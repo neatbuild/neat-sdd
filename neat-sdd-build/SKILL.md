@@ -145,13 +145,19 @@ See [Parallel Execution Reference](references/parallel-execution.md).
 Wait for background agents to complete. As each finishes:
 
 1. Retrieve completion status and worktree path
-2. Merge worktree to main branch
-3. Run integration tests for that feature
-4. If tests pass: 
+2. **Simplify in worktree (BLOCKING):**
+   - Invoke `/simplify` in the worktree context
+   - Reviews changed code for reuse, quality, efficiency
+   - Fixes issues found
+   - Commits simplifications to worktree
+   - **CRITICAL:** Must run BEFORE merge - other features may depend on this code
+3. Merge worktree to main branch
+4. Run integration tests for that feature
+5. If tests pass: 
    - **IMMEDIATELY run Step 7 (Risk Assessment + Gate) - BLOCKING**
    - **IMMEDIATELY run Step 8 (Update Feature Doc state: implemented) - BLOCKING**
    - **CRITICAL:** State MUST be updated BEFORE checking for next feature
-5. If tests fail: 
+6. If tests fail: 
    - Mark feature as failed (add `## Status - Failed` section)
    - Log failure, continue monitoring others
 
