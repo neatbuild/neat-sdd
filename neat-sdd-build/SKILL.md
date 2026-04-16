@@ -25,12 +25,13 @@ Orchestrates builds: readiness → brainstorming → ADR extraction → writing-
 
 | Step | What |
 |------|------|
-| 1-1.5 | Pick feature, resume from Status/plan/design or fresh |
+| 1-1.5 | Pick feature(s), choose mode (sequential/batch), resume from Status/plan/design or fresh |
 | 2-2.5 | Check entry criteria, doc quality, discover blast area |
 | 3-3.5 | Design (query KB), extract ADRs |
 | 4-4.5 | Write TDD tasks, analyze dependencies |
 | 5 | Risk assessment → gate design + plan (if needed) |
-| 6-6a | Execute layer-by-layer |
+| 6 | Execute (sequential: one feature, batch: spawn all in background) |
+| 6a | Monitor batch completion (batch mode only) |
 | 7 | Risk assessment → gate code (if needed) |
 | 8 | Update feature doc status, auto-ingest to KB |
 | 9 | Prompt for audit if 2+ features with relationships |
@@ -48,7 +49,20 @@ Orchestrates builds: readiness → brainstorming → ADR extraction → writing-
 
 ### Step 1: Pick Feature (BLOCKING)
 
-Present features with entry criteria for user selection.
+Present features with entry criteria.
+
+**Execution Mode:**
+- **Sequential (default):** Pick one feature, build completely (Steps 1-9), then next feature
+- **Batch:** Pick multiple independent features, prepare all (Steps 1-5), execute in parallel (Step 6), finalize as complete (Steps 7-9)
+
+**For batch mode:**
+1. User selects multiple features
+2. **Validate independence (CRITICAL):**
+   - Check `depends_on` in frontmatter: no dependencies between selected features
+   - Check blast areas: no overlapping files/components
+   - Check task plans: no shared external dependencies being modified
+3. **If validation fails:** Explain conflict, fallback to sequential mode
+4. **If validation passes:** Proceed with batch workflow (each in isolated worktree)
 
 ### Step 1.5: Automatic State Detection
 
@@ -117,6 +131,12 @@ Per [Dependency Analysis Algorithm](references/dependency-analysis.md):
 
 ### Step 6: Execution
 
+**Sequential Mode:** Execute one feature completely before moving to next.
+
+**Batch Mode:** Execute all prepared features in parallel.
+
+#### Sequential Execution
+
 Execute layer-by-layer using dependency analysis from Step 4.5. Per layer:
 
 1. Spawn agent with worktree isolation, pass layer tasks + feature doc + design spec
@@ -126,7 +146,30 @@ Execute layer-by-layer using dependency analysis from Step 4.5. Per layer:
 
 **After execution completes:** Continue immediately to Step 7 (Risk Assessment + Gate) - do NOT stop here.
 
+#### Batch Execution
+
+For each prepared feature (has design + plan from Steps 1-5):
+
+1. Spawn agent with worktree isolation (`run_in_background: true`)
+2. Pass: layer-by-layer tasks + feature doc + design spec
+3. Agent executes all layers independently
+4. Track: feature name → agent ID → worktree path
+
+**After all spawned:** Continue to Step 6a (Monitor Batch).
+
 See [Parallel Execution Reference](references/parallel-execution.md).
+
+### Step 6a: Monitor Batch Completion (Batch Mode Only)
+
+Wait for background agents to complete. As each finishes:
+
+1. Retrieve completion status and worktree path
+2. Merge worktree to main branch
+3. Run integration tests for that feature
+4. If tests pass: proceed to Step 7 for that feature
+5. If tests fail: log failure, continue monitoring others
+
+**Dependency Safety:** Features in the same batch are validated as independent (Step 1). Each works in isolated worktree, merges sequentially after completion.
 
 ### Step 7: Risk Assessment + Spec Gate — Execute
 
