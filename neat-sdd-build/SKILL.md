@@ -124,6 +124,8 @@ Execute layer-by-layer using dependency analysis from Step 4.5. Per layer:
 3. Merge worktree, run integration tests
 4. Next layer after tests pass
 
+**After execution completes:** Continue immediately to Step 7 (Risk Assessment + Gate) - do NOT stop here.
+
 See [Parallel Execution Reference](references/parallel-execution.md).
 
 ### Step 7: Risk Assessment + Spec Gate — Execute
