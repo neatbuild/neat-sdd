@@ -156,7 +156,7 @@ If 2+ implemented features AND current has `depends_on` or blast area overlaps: 
 
 ### Step 10: Continue Building
 
-Build another?
+Check for remaining features with `state: refined`. If found, automatically return to Step 1 and present next batch for selection. If none remain, announce: "All features built."
 
 ## Gate Handling
 
