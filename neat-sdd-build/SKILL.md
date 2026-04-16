@@ -54,8 +54,9 @@ Orchestrates continuous parallel builds: readiness → brainstorming → ADR ext
 Present features with entry criteria. User selects 1+ features to build.
 
 **Independence Validation:**
+
 1. Check `depends_on` in frontmatter: no dependencies between selected features
-2. Check blast areas: no overlapping files/components  
+2. Check blast areas: no overlapping files/components
 3. Check task plans: no shared external dependencies being modified
 
 **If conflicts found:** Present conflict details, ask user to deselect conflicting features or adjust selection.
@@ -98,6 +99,7 @@ Parse components → keywords → search → rank → confirm.
 Check: `docs/knowledge/.index/metadata.json` exists?
 
 **If YES (agent-driven discovery available):**
+
 - Formulate specific questions based on blast area components
 - Example: `neat-knowledge-extract "What authentication patterns, token handling, and security decisions exist?"`
 - Internally calls search, agent evaluates keyword matches for relevance and depth
@@ -105,6 +107,7 @@ Check: `docs/knowledge/.index/metadata.json` exists?
 - If invoke fails (neat-knowledge not installed): fall back to direct reads automatically, log "neat-knowledge not available, using direct reads"
 
 **If NO (direct reads fallback):**
+
 - Read `specs.md`, parse KB entries in Outputs section
 - Read relevant files from `docs/specs/` (analysis, domains, features, ADRs)
 - Extract sections directly in main context
@@ -171,15 +174,16 @@ Wait for background agents to complete. As each finishes:
    - **CRITICAL:** Must run BEFORE merge - other features may depend on this code
 3. Merge worktree to main branch
 4. Run integration tests for that feature
-5. If tests pass: 
+5. If tests pass:
    - **IMMEDIATELY run Step 7 (Risk Assessment + Gate) - BLOCKING**
    - **IMMEDIATELY run Step 8 (Update Feature Doc state: implemented) - BLOCKING**
    - **CRITICAL:** State MUST be updated BEFORE checking for next feature
-6. If tests fail: 
+6. If tests fail:
    - Mark feature as failed (add `## Status - Failed` section)
    - Log failure, continue monitoring others
 
 **After feature state updated (Step 8 complete):**
+
 1. Check for remaining features with `state: refined`
 2. If found: validate independence from still-running features
    - Check `depends_on`: no dependencies on running features
